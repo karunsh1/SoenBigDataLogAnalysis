@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>Business</groupId>
-  <artifactId>RecomSystem</artifactId>
+  <groupId>LogAnalysis</groupId>
+  <artifactId>LogAnalysis</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>RecomSystem</name>
+  <name>LogAnalysis</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -20,12 +20,7 @@
         </repository>
 </repositories>  
   <dependencies>
-  <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
-	<dependency>
-	    <groupId>org.mongodb</groupId>
-	    <artifactId>mongo-java-driver</artifactId>
-	    <version>3.4.2</version>
-	</dependency>
+  
 	<dependency>
        <groupId>org.apache.spark</groupId>
        <artifactId>spark-core_2.11</artifactId>
@@ -41,13 +36,7 @@
 	    <groupId>org.apache.spark</groupId>
 	    <artifactId>spark-sql_2.11</artifactId>
 	    <version>2.0.0</version>
-    </dependency>
-	<dependency>
-	    <groupId>org.mongodb.spark</groupId>
-	    <artifactId>mongo-spark-connector_2.11</artifactId>
-	    <version>2.0.0</version>
-     </dependency>
-	
+    </dependency>	
 		 
     <dependency>
       <groupId>junit</groupId>
