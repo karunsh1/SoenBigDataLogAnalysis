@@ -1,3 +1,6 @@
+
+/***LogAnalysis:-Q9  Mapping with session user to make Anonymized File with mapped use *****/
+
 package Log.LogAnalysis;
 
 import java.io.File;
@@ -26,52 +29,52 @@ public class q9Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		
+	         /** Input Directory Arrgument**/
 		String logFileIliad = args[0];
 		String logFileOdyssey = args[1];
 
-		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
+		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");  
 
 		JavaSparkContext sc = new JavaSparkContext(conf);
-		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);
-		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
-		JavaRDD<String> sessionDetail_Iliad = sessionDetaililliad(logRDDIllad, "Starting Session", "user");
+		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad); //Read input file1
+		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey); //Read input file2
+		JavaRDD<String> sessionDetail_Iliad = sessionDetaililliad(logRDDIllad, "Starting Session", "user");  //Filter the text file of Iliad (Input fle1)
 		
-		JavaRDD<String> sessionDetail_oddyssey = sessionDetaililliad(logRDDOdyssey, "Starting Session", "user");
-		JavaRDD<String> logRDDIllad_starting = logRDDIllad.filter(s->s.contains("Started Session"));
+		JavaRDD<String> sessionDetail_oddyssey = sessionDetaililliad(logRDDOdyssey, "Starting Session", "user");  //Filter the text file of Iliad (Input fle1)
+		JavaRDD<String> logRDDIllad_starting = logRDDIllad.filter(s->s.contains("Started Session"));             
 		JavaRDD<String> logRDDOdyssey_starting = logRDDOdyssey.filter(s->s.contains("Started Session"));
-		JavaRDD<String> logRDDIllad_startedUnion = logRDDIllad_starting.union(sessionDetail_Iliad);
-		JavaRDD<String> logRDDOdysey_startedUnion = logRDDOdyssey_starting.union(sessionDetail_oddyssey);
+		JavaRDD<String> logRDDIllad_startedUnion = logRDDIllad_starting.union(sessionDetail_Iliad);          // for iliad: Union operation of 2 filter file to get all session user in one file
+		JavaRDD<String> logRDDOdysey_startedUnion = logRDDOdyssey_starting.union(sessionDetail_oddyssey);    // for Odyssey: Union operation of 2 filter file to get all session user in one file
 		
-		JavaRDD<String> logRDDIllad_startedWithoutSession = logRDDIllad.subtract(logRDDIllad_startedUnion);
+		JavaRDD<String> logRDDIllad_startedWithoutSession = logRDDIllad.subtract(logRDDIllad_startedUnion);  // to get res data of input except filter filed Subtract Opertionn is used
 		JavaRDD<String> logRDDOdyssey_startedWithoutSession = logRDDOdyssey.subtract(logRDDOdysey_startedUnion);
 		
-		JavaRDD<String> rddUserIliad = getSeesionUser(sessionDetail_Iliad).distinct();
+		JavaRDD<String> rddUserIliad = getSeesionUser(sessionDetail_Iliad).distinct();      // get distinct  element of seesion user
 		JavaRDD<String> rddUserOddyssey = getSeesionUser(sessionDetail_oddyssey).distinct();
 		// sorted session user
 		rddUserIliad = getSortStringValue(rddUserIliad);
 		rddUserOddyssey = getSortStringValue(rddUserOddyssey);
 
-		JavaPairRDD<String, String> pairIliadTobeUser = getPairSessionUserToBeUser(rddUserIliad);
+		JavaPairRDD<String, String> pairIliadTobeUser = getPairSessionUserToBeUser(rddUserIliad);   // map with session user and to be user for Anonymized file
 		JavaPairRDD<String, String> pairOdysseyTobeUser = getPairSessionUserToBeUser(rddUserOddyssey);
 
 		
 		
-		JavaRDD<String> rddIliadAnonymized = getAnonymizedFile(logRDDIllad_startedUnion,
+		JavaRDD<String> rddIliadAnonymized = getAnonymizedFile(logRDDIllad_startedUnion,     //getAnonymizedFile is user defined method to get Anonymizedfille rdd
 				logRDDIllad_startedWithoutSession, pairIliadTobeUser).coalesce(4);
 		
 		JavaRDD<String> rddOdysseyAnonymized = getAnonymizedFile(logRDDOdysey_startedUnion,
 				logRDDOdyssey_startedWithoutSession, pairOdysseyTobeUser).coalesce(4);
 
-		String iliadAnonymized = System.getProperty("user.home")+"/iliad-anonymized-10";
+		String iliadAnonymized = System.getProperty("user.home")+"/iliad-anonymized-10";      // OutPut Directory /home/user/<directory name>
 		String odYsseyAnonymized = System.getProperty("user.home")+"/odyssey-anonymized-10";
 		
 		
-		rddIliadAnonymized.coalesce(4, false).saveAsTextFile(iliadAnonymized);
+		rddIliadAnonymized.coalesce(4, false).saveAsTextFile(iliadAnonymized);   // save as text file with 4 partition
 		rddOdysseyAnonymized.saveAsTextFile(odYsseyAnonymized);
 		
 		
-
+                /*  Print Required Output*/
 		
 		System.out.println("value: "+rddIliadAnonymized.count()+"   "+ rddOdysseyAnonymized.count() +"main" +logRDDIllad.count() + "  "+logRDDOdyssey.count());
 		System.out.println("Q9 - Anonymize the logs \n + iliad: \n.User name mapping:" + pairIliadTobeUser.collect() + "\n. Anonymized files: " +iliadAnonymized +"\n"
@@ -82,10 +85,7 @@ public class q9Main {
 	}
 
 	/**
-	 * @param logRDDIllad_startedUnion
-	 * @param logRDDIllad_startedWithoutSession
-	 * @param pairIliadTobeUser
-	 * @return
+	 Method to get Anonymized File
 	 */
 	public static JavaRDD<String> getAnonymizedFile(JavaRDD<String> logRDDIllad_startedUnion,
 			JavaRDD<String> logRDDIllad_startedWithoutSession, JavaPairRDD<String, String> pairIliadTobeUser) {
@@ -124,7 +124,7 @@ public class q9Main {
 	}
 
 	/**
-	 * @param rddUserIliad
+	 * Method to get map of session and pair user
 	 */
 	public static JavaPairRDD<String, String> getPairSessionUserToBeUser(JavaRDD<String> rddUserIliad) {
 		int rddiliadcount = (int) rddUserIliad.count();
@@ -160,6 +160,10 @@ public class q9Main {
 		return pairSessionUserTobeUser;
 	}
 
+	/**
+	Method to get sorted rdd 
+	*/
+	
 	public static JavaRDD<String> getSortStringValue(JavaRDD<String> rddUserIliad) {
 		JavaRDD<String> rddUserIliadSorted = rddUserIliad.sortBy(new Function<String, String>() {
 			private static final long serialVersionUID = 1L;
@@ -175,7 +179,7 @@ public class q9Main {
 	
 
 	/**
-	 * @param sessionDetail_Iliad
+	 * to get session user
 	 * @return
 	 */
 	public static JavaRDD<String> getSeesionUser(JavaRDD<String> sessionDetail_Iliad) {
@@ -200,7 +204,7 @@ public class q9Main {
 		return rddUserIliad;
 	}
 
-	
+	// To filter seesion record from input file
 	
 	
 	public static JavaRDD<String> sessionDetaililliad(JavaRDD<String> logRDDIllad, final String Session,
