@@ -9,9 +9,7 @@ III. Running Log Analysis Assignment
 
 IV . Source Files
 
-V. Results
-
-VI. Help & Feedback
+V. Help & Feedback
 
 I. About:
 ================================================
@@ -60,23 +58,8 @@ Dependency file for our maven project:
 
 pom.xml
 
-V. Results :
-===============================================================
-Question 1 
 
-* Q1: line counts
-
-+ iliad: 63854
-
-+ odyssey: 65405
-
-
-Question 2 :
-
-
-
-
-VI. Help & Feedback
+V. Help & Feedback
 
 Help
 
