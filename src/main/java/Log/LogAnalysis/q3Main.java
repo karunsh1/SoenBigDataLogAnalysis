@@ -1,3 +1,4 @@
+//Ques 3 : For each host, list the unique user names who started a session.
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -25,8 +26,7 @@ public class q3Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		//String logFileIliad = "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		//String logFileOdyssey = "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
+		
 		String logFileIliad = args[0];
 		String logFileOdyssey = args[1];
 		
@@ -49,8 +49,8 @@ public class q3Main {
 
 		
 	}
-
-	
+    
+	// For each host, list the unique user names who started a session
 	public static JavaRDD<String> getSeesionUser(JavaRDD<String> sessionDetail_Iliad) {
 		JavaRDD<String> rddUserIliad = sessionDetail_Iliad.flatMap(new FlatMapFunction<String, String>() {
 			
