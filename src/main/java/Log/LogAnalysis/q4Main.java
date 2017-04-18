@@ -1,3 +1,4 @@
+// Ques 4 : For each host, list the number of sessions started per user.
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -23,12 +24,9 @@ public class q4Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		// String logFileIliad =
-		// "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		// String logFileOdyssey =
-		// "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
-		String logFileIliad = args[0];
-		String logFileOdyssey = args[1];
+	
+		String logFileIliad = args[0]; // argument for file 1
+		String logFileOdyssey = args[1]; // argument for file 2
 		
 		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
 
@@ -49,7 +47,7 @@ public class q4Main {
 				+ "\n + Odyssey :" + rddeUserSessionCount_Oddyssey.collect());
 
 	}
-
+	//method to print session for user
 	public static JavaRDD<String> getSeesionUser(JavaRDD<String> sessionDetail_Iliad) {
 		JavaRDD<String> rddUserIliad = sessionDetail_Iliad.flatMap(new FlatMapFunction<String, String>() {
 			
