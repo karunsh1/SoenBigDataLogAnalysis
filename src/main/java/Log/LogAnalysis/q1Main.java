@@ -1,3 +1,4 @@
+// Question 1 : print total number of available log lines
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -25,17 +26,16 @@ public class q1Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		//String logFileIliad = "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		//String logFileOdyssey = "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
-		String logFileIliad = args[0];
-		String logFileOdyssey = args[1];
+		
+		String logFileIliad = args[0]; // argument 1 for log file 1
+		String logFileOdyssey = args[1]; // argument 2 for log file 2
 		
 		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
 
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);
 		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
-		// Print Question 1
+		// print total number of available log lines 
 		System.out.println("Question 1 Line Counts\n + Iliad :" + logRDDIllad.count() + "\n" + "+ Odyssey :"
 				+ logRDDOdyssey.count());
 
