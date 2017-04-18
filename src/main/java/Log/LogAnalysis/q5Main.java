@@ -1,3 +1,5 @@
+
+//Ques 5 : For each host, count the error messages, i.e., the lines that contain string “error”
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -23,10 +25,7 @@ public class q5Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		// String logFileIliad =
-		// "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		// String logFileOdyssey =
-		// "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
+	
 		String logFileIliad = args[0];
 		String logFileOdyssey = args[1];
 		
@@ -44,7 +43,7 @@ public class q5Main {
 				+ errorRDDOdyssey.count());
 
 	}
-
+        ///method to get error count
 	public static JavaRDD<String> getErrorCount(JavaRDD<String> errorLogRDDFile, final String error) {
 		return errorLogRDDFile.filter(new Function<String, Boolean>() {
 
