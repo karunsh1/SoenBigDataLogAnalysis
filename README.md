@@ -20,10 +20,14 @@ II. Requirements
 
 It is implemented using Spark API. To run Spark API,we need the following environment
 Java Version 1.8
-Spark Version : 
+Spark Version : 2.0.0
 
 III. Running Log Analysis Assignment
 
+Step 1 : Keep Jar file and log analyser script at the same place(in the same directory)
+Step 2 : In the terminal,move to the directory where the script and the jar are placed
+Step 3 : Run the command in the following format :
+         $ ./log_analyzer -q <i> <dir1> <dir2>
 IV. Source Files:
 
 V. Results :
