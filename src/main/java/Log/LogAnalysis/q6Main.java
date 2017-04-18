@@ -42,6 +42,9 @@ public class q6Main {
 		// Print Question 6
 		List<Tuple2<Integer, String>> most5FrequentMessages_iliad = getTop5Errormessages(sc, errorRDDIllad);
 		List<Tuple2<Integer, String>> most5FrequentMessages_Odyssey = getTop5Errormessages(sc, errorRDDOdyssey);
+		
+		
+		
 		System.out.println("5 most frequent error messages \n +  Iliad :" + most5FrequentMessages_iliad
 				+ "\n + Odyssey :" + most5FrequentMessages_Odyssey);
 
