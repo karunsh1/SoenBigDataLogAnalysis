@@ -90,7 +90,7 @@ public class q9Main {
 	public static JavaRDD<String> getAnonymizedFile(JavaRDD<String> logRDDIllad_startedUnion,
 			JavaRDD<String> logRDDIllad_startedWithoutSession, JavaPairRDD<String, String> pairIliadTobeUser) {
 		final List<Tuple2<String, String>> listpairIliadTobeUser  = pairIliadTobeUser.collect();
-		
+		// map function used to replace session user into tobe user i.e user-0,uer-1 ,etc.
 		JavaRDD<String> rddIliadAnonymized = logRDDIllad_startedUnion .map(new Function<String,String>() {
 			List<Tuple2<String, String>> listpairIliadTobeUsertemp = listpairIliadTobeUser ;
 			
