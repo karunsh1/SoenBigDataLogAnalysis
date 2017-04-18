@@ -1,3 +1,4 @@
+// Ques 2 :For each host, print the number of sessions that were started for user achille.
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class q2Main {
 
 	}
 
-	
+	//method to filter session by a user
 	public static JavaRDD<String> sessionDetaililliad(JavaRDD<String> logRDDIllad, final String Session, final String user) {
 		JavaRDD<String> sessionCount = logRDDIllad.filter(new Function<String, Boolean>() {
 
