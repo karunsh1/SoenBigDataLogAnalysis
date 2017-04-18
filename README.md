@@ -14,12 +14,13 @@ V. Results
 VI. Help & Feedback
 
 I. About:
-
-
+This assignment is to analyze log files using Apache Spark. Log files are  collected on two hosts called iliad and odyssey.
 
 II. Requirements
 
-
+It is implemented using Spark API. To run Spark API,we need the following environment
+Java Version 1.8
+Spark Version : 
 
 III. Running Log Analysis Assignment
 
