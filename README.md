@@ -35,16 +35,25 @@ IV. Source Files:
 Java files for Q1 - Q9:
 
 src/main/java/log/logAnalysis/q1Main.java
+
 src/main/java/log/logAnalysis/q2Main.java
+
 src/main/java/log/logAnalysis/q3Main.java
+
 src/main/java/log/logAnalysis/q4Main.java
+
 src/main/java/log/logAnalysis/q5Main.java
+
 src/main/java/log/logAnalysis/q6Main.java
+
 src/main/java/log/logAnalysis/q7Main.java
+
 src/main/java/log/logAnalysis/q8Main.java
+
 src/main/java/log/logAnalysis/q9Main.java
 
 Script :
+
 logAnalyzer.sh
 
 Dependency file for our maven project:
@@ -52,6 +61,20 @@ Dependency file for our maven project:
 pom.xml
 
 V. Results :
+===============================================================
+Question 1 
+
+* Q1: line counts
+
++ iliad: 63854
+
++ odyssey: 65405
+
+
+Question 2 :
+
+
+
 
 VI. Help & Feedback
 
