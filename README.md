@@ -23,11 +23,16 @@ Spark Version : 2.0.0
 
 III. Running Log Analysis Assignment
 =========================================
+Method 1: Using jar
 Step 1 : Keep Jar file and log analyser script at the same place(in the same directory)
 Step 2 : In the terminal,move to the directory where the script and the jar are placed
 Step 3 : Run the command in the following format :
          $ ./log_analyzer -q <i> <dir1> <dir2>
          
+Method 2 : Running the source code
+Step 1 : Import as maven project through pom.xml in eclipse/any IDE
+Step 2 : Run the file for which you want to see the output
+
 Note : For question 9,if the output directory already exists,then first remove that directory from home/user/
          
 IV. Source Files:
