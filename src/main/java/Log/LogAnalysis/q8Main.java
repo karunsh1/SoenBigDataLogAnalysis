@@ -1,3 +1,5 @@
+/*  logAnalysis:Q8 - to get each host one session user*/
+
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -28,26 +30,26 @@ public class q8Main {
 
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
-
-		//String logFileIliad = "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		//String logFileOdyssey = "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
-		String logFileIliad = args[0];
+		
+		String logFileIliad = args[0];   //Input Argument
 		String logFileOdyssey = args[1];
 		
-		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
+		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");  //Spark configeration Setting
 
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);
 		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
+		  
 		
+		/* Data Filteration*/
 
 		JavaRDD<String> sessionDetail_Iliad = sessionDetaililliad(logRDDIllad, "Starting Session", "user");
 		JavaRDD<String> sessionDetail_oddyssey = sessionDetaililliad(logRDDOdyssey, "Starting Session", "user");
 		JavaRDD<String> rddUserIliad = getSeesionUser(sessionDetail_Iliad).distinct();
 		JavaRDD<String> rddUserOddyssey = getSeesionUser(sessionDetail_oddyssey).distinct();
-		//get session user intersection
-		JavaRDD<String> rddUserCommon = rddUserIliad.intersection(rddUserOddyssey);
 		
+		//get session user intersection
+		JavaRDD<String> rddUserCommon = rddUserIliad.intersection(rddUserOddyssey);	
 		
 		//get system user intersection
 		JavaRDD<String> rddSysUserIliad = getSysUser(sessionDetail_Iliad);
@@ -69,11 +71,12 @@ public class q8Main {
 			}
 		});
 		
-		rddSysUserIliad = rddSysUserIliad.subtract(rddSysUserIliad_local);
+		rddSysUserIliad = rddSysUserIliad.subtract(rddSysUserIliad_local);     // filter the local host
 		rddSysUserodyssey = rddSysUserodyssey.subtract(rddSysUserodyssey_local);
 		
-		JavaRDD<String> rddSysUserunion = rddSysUserIliad.union(rddSysUserodyssey);
-		//JavaRDD<String> rddSyssessionUserunion = rddSysUserunion.union(rddUserCommon);
+		// operation Union Intersection,filter and Subtract in javardd<string> and JavaPairRDD
+		
+		JavaRDD<String> rddSysUserunion = rddSysUserIliad.union(rddSysUserodyssey);		
 		JavaPairRDD<String, String> rddSyssessionUserunionpair_INS= rddUserCommon.cartesian(rddSysUserunion);	
 		JavaPairRDD<String, String> rddPairSysUserSessionUserPair_Iliad = getSysUserSessionUserPair(sessionDetail_Iliad);
 		JavaPairRDD<String, String> rddPairSysUserSessionUserPair_Odyssey = getSysUserSessionUserPair(sessionDetail_oddyssey);	
@@ -88,6 +91,8 @@ public class q8Main {
 		JavaPairRDD<String, String>  rddPairSysUserSessionUserPair_Union=  rddPairSysUserSessionUserPair_Odyssey.union(rddPairSysUserSessionUserPair_Iliad);
 		JavaPairRDD<String, String> rddeachhostEachUserPair = rddPairSysUserSessionUserPair_Union.subtract(rddSyssessionUserunionpair_INS);
 		
+		
+		// Print Output of Q8
 		System.out.println("* Q8: users who started a session on exactly one host, with host name \n + :" + rddeachhostEachUserPair.collect());
 		
 	}
@@ -96,8 +101,7 @@ public class q8Main {
 
 
 	/**
-	 * @param rddPairSysUserSessionUserPair_Odyssey
-	 * @return
+	 * get Local host from the fileration session & user data
 	 */
 	public static JavaPairRDD<String, String> getLocalhost(
 			JavaPairRDD<String, String> rddPairSysUserSessionUserPair_Odyssey) {
@@ -114,7 +118,7 @@ public class q8Main {
 
 
 	/**
-	 * @param sessionDetail_Iliad
+	 * get System and session user pair in the filteration data
 	 * @return
 	 */
 	public static JavaPairRDD<String, String> getSysUserSessionUserPair(JavaRDD<String> sessionDetail_Iliad) {
@@ -149,7 +153,7 @@ public class q8Main {
 		return rddPairSysUserSessionUserPairUnion;
 	}
 
-	///
+	///  get system user
 	public static JavaRDD<String> getSysUser(JavaRDD<String> sessionDetail_Iliad) {
 		JavaRDD<String> rddUserIliad = sessionDetail_Iliad.flatMap(new FlatMapFunction<String, String>() {
 			@Override
@@ -171,7 +175,7 @@ public class q8Main {
 		return rddUserIliad;
 	}
 	
-	
+	//get session user
 	public static JavaRDD<String> getSeesionUser(JavaRDD<String> sessionDetail_Iliad) {
 		JavaRDD<String> rddUserIliad = sessionDetail_Iliad.flatMap(new FlatMapFunction<String, String>() {
 			@Override
@@ -194,7 +198,7 @@ public class q8Main {
 		return rddUserIliad;
 	}
 	
-	
+	// get session user filteration data
 
 	public static JavaRDD<String> sessionDetaililliad(JavaRDD<String> logRDDIllad, final String Session, final String user) {
 		JavaRDD<String> sessionCount = logRDDIllad.filter(new Function<String, Boolean>() {
