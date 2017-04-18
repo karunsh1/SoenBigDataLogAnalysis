@@ -1,3 +1,5 @@
+/* LogAnalays Q7 : get Session useer who are in both host*/
+
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -25,9 +27,8 @@ public class q7Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		//String logFileIliad = "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		//String logFileOdyssey = "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
-		String logFileIliad = args[0];
+		
+		String logFileIliad = args[0];   // pass input as argument
 		String logFileOdyssey = args[1];
 		
 		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
@@ -36,24 +37,27 @@ public class q7Main {
 		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);
 		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
 		
-
+                //Filteration of session data with user
 		JavaRDD<String> sessionDetail_Iliad = sessionDetaililliad(logRDDIllad, "Starting Session", "user");
 		JavaRDD<String> sessionDetail_oddyssey = sessionDetaililliad(logRDDOdyssey, "Starting Session", "user");
 
-		// Print Question 3
+		// get distinct session user 
 
 		JavaRDD<String> rddUserIliad = getSeesionUser(sessionDetail_Iliad).distinct();
 		JavaRDD<String> rddUserOddyssey = getSeesionUser(sessionDetail_oddyssey).distinct();
 
 		
 
-		// Print question 7
+		
 
-		JavaRDD<String> rddUserCombine = rddUserIliad.intersection(rddUserOddyssey);
+		JavaRDD<String> rddUserCombine = rddUserIliad.intersection(rddUserOddyssey);   //intersection operation of javardd
+		
+		//Output of Q7
 		System.out.println("Q7: users who started a session on both hosts \n + " + rddUserCombine.collect());
 		
 	}
 
+	//Get session user
 	
 	public static JavaRDD<String> getSeesionUser(JavaRDD<String> sessionDetail_Iliad) {
 		JavaRDD<String> rddUserIliad = sessionDetail_Iliad.flatMap(new FlatMapFunction<String, String>() {
@@ -77,6 +81,7 @@ public class q7Main {
 		return rddUserIliad;
 	}
 
+	// get filteration data of session and user
 	public static JavaRDD<String> sessionDetaililliad(JavaRDD<String> logRDDIllad, final String Session, final String user) {
 		JavaRDD<String> sessionCount = logRDDIllad.filter(new Function<String, Boolean>() {
 
