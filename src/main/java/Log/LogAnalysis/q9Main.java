@@ -85,7 +85,7 @@ public class q9Main {
 	}
 
 	/**
-	 Method to get Anonymized File
+	 Method to get Anonymized File fromm input file
 	 */
 	public static JavaRDD<String> getAnonymizedFile(JavaRDD<String> logRDDIllad_startedUnion,
 			JavaRDD<String> logRDDIllad_startedWithoutSession, JavaPairRDD<String, String> pairIliadTobeUser) {
