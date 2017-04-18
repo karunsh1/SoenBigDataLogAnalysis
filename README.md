@@ -28,6 +28,8 @@ Step 2 : In the terminal,move to the directory where the script and the jar are 
 Step 3 : Run the command in the following format :
          $ ./log_analyzer -q <i> <dir1> <dir2>
          
+Note : For question 9,if the output directory already exists,then first remove that directory from home/user/
+         
 IV. Source Files:
 ===========================================
 Java files for Q1 - Q9:
