@@ -41,7 +41,7 @@ public class q8Main {
 		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
 		  
 		
-		/* Data Filteration*/
+		/* Data Filteration of session useer*/
 
 		JavaRDD<String> sessionDetail_Iliad = sessionDetaililliad(logRDDIllad, "Starting Session", "user");
 		JavaRDD<String> sessionDetail_oddyssey = sessionDetaililliad(logRDDOdyssey, "Starting Session", "user");
