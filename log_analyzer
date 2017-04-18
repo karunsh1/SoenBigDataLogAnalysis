@@ -2,31 +2,31 @@
 #input format : ./log_analyzer -q 7 iliad odyssey
 if [ "$2" = "1" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q1Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q1Main "$3" "$4"
 elif [ "$2" = "2" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q2Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q2Main "$3" "$4"
 elif [ "$2" = "3" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q3Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q3Main "$3" "$4"
 elif [ "$2" = "4" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q4Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q4Main "$3" "$4"
 elif [ "$2" = "5" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q5Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q5Main "$3" "$4"
 elif [ "$2" = "6" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q6Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q6Main "$3" "$4"
 elif [ "$2" = "7" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q7Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q7Main "$3" "$4"
 elif [ "$2" = "8" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q8Main "$3" "$4"
-elif [ "$2" = "6" ]
+	java -cp logAnalysis.jar Log.LogAnalysis/q8Main "$3" "$4"
+elif [ "$2" = "9" ]
 then
-	java -cp log2.jar Log.LogAnalysis/q9Main "$3" "$4"
+	java -cp logAnalysis.jar Log.LogAnalysis/q9Main "$3" "$4"
 else
 	echo "wrong question number"
 fi	
