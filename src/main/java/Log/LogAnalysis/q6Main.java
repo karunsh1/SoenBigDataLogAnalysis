@@ -1,3 +1,4 @@
+/*  Log Analys:Q6  5 most frequent error messages */
 package Log.LogAnalysis;
 
 import java.util.ArrayList;
@@ -23,32 +24,32 @@ public class q6Main {
 	@SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 	public static void main(String[] args) {
 
-		// String logFileIliad =
-		// "/home/karunsh/workspace/RecomSystem/Files/iliad/part-0000[0-4]*";
-		// String logFileOdyssey =
-		// "/home/karunsh/workspace/RecomSystem/Files/odyssey/part-0000[0-4]*";
-		String logFileIliad = args[0];
+		
+		String logFileIliad = args[0];   //Argument for passing inputs
 		String logFileOdyssey = args[1];
 		
-		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");
+		SparkConf conf = new SparkConf().setAppName("Log Analysis").setMaster("local[*]");   //Spark Conf setting
 
 		JavaSparkContext sc = new JavaSparkContext(conf);
-		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);
+		JavaRDD<String> logRDDIllad = sc.textFile(logFileIliad);    // Read inputs
 		JavaRDD<String> logRDDOdyssey = sc.textFile(logFileOdyssey);
 
-		JavaRDD<String> errorRDDIllad = getErrorCount(logRDDIllad, "error");
+		JavaRDD<String> errorRDDIllad = getErrorCount(logRDDIllad, "error");      // filteration from data 
 		JavaRDD<String> errorRDDOdyssey = getErrorCount(logRDDOdyssey, "error");
 
-		// Print Question 6
-		List<Tuple2<Integer, String>> most5FrequentMessages_iliad = getTop5Errormessages(sc, errorRDDIllad);
+		// get Top most frequent messsages 
+		List<Tuple2<Integer, String>> most5FrequentMessages_iliad = getTop5Errormessages(sc, errorRDDIllad); 
 		List<Tuple2<Integer, String>> most5FrequentMessages_Odyssey = getTop5Errormessages(sc, errorRDDOdyssey);
 		
 		
 		
-		System.out.println("5 most frequent error messages \n +  Iliad :" + most5FrequentMessages_iliad
+		System.out.println("Q6: 5 most frequent error messages \n +  Iliad :" + most5FrequentMessages_iliad
 				+ "\n + Odyssey :" + most5FrequentMessages_Odyssey);
 
 	}
+	
+	
+	// ge top 5 error message 
 
 	public static List<Tuple2<Integer, String>> getTop5Errormessages(JavaSparkContext sc,
 			JavaRDD<String> errorRDDIllad) {
@@ -89,6 +90,9 @@ public class q6Main {
 		List<Tuple2<Integer, String>> GetTop5Errors = swappedErrorPair.take(5);
 		return GetTop5Errors;
 	}
+	
+	
+	// get list of error message from the input flle
 
 	public static List<String> getErrorMessage(JavaRDD<String> errorRDDIllad) {
 		List<String> listErrorWithUser = errorRDDIllad.collect();
@@ -111,6 +115,8 @@ public class q6Main {
 		}
 		return errorList;
 	}
+	
+	// get error count
 
 	public static JavaRDD<String> getErrorCount(JavaRDD<String> errorLogRDDFile, final String error) {
 		return errorLogRDDFile.filter(new Function<String, Boolean>() {
